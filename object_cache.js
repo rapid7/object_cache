@@ -1,8 +1,8 @@
 /*! object_cache, https://github.com/logentries/object_cache */
 /**
- * Simple in-memory cache for AJAX requests.
+ * Simple in-memory object cache
  * 
- * Version 0.3.1
+ * Version 0.3.2
  * Copyright 2011 Viliam Holub
  * 
  * Shared under the Creative Commons Attribution 3.0 Unported License
