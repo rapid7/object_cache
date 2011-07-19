@@ -1,7 +1,7 @@
 /**
  * Simple in-memory cache for AJAX requests.
  * 
- * Version 0.3
+ * Version 0.3.1
  * Copyright 2011 Viliam Holub
  * 
  * Shared under the Creative Commons Attribution 3.0 Unported License
@@ -30,7 +30,7 @@ function ObjectCache(cache_capacity, undefined) {
 	 * @return value
 	 */
 	this.put = function(key, value) {
-		// Convert the key to JSON string
+		// Convert the key to string
 		var cache_key = make_key(key);
 		// Update cache size
 		size += storage[cache_key] ? 0 : 1;
@@ -54,7 +54,7 @@ function ObjectCache(cache_capacity, undefined) {
 	 * @return object found or null
 	 */
 	this.get = function(key, age) {
-		// Convert the key to JSON string
+		// Convert the key to string
 		var cache_key = make_key(key);
 		// Find the element
 		var record = storage[cache_key];
