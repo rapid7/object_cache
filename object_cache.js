@@ -1,3 +1,4 @@
+/*! object_cache, https://github.com/logentries/object_cache */
 /**
  * Simple in-memory cache for AJAX requests.
  * 
