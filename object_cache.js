@@ -98,7 +98,7 @@ function ObjectCache(cache_capacity, undefined) {
 				return a[1][1] - b[1][1];
 			});
 			// Delete half of the capacity
-			for ( var i = 0; i < capacity / 2; i++)
+			for (var i = 0; i < capacity / 2; i++)
 				delete storage[tosort[i][0]];
 			size -= capacity / 2;
 		}

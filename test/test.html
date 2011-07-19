@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>ObjectCache test</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../object_cache.js"></script>
+	<style>
+		b { color: red; }
+	</style>
+</head>
+
+<body>
+
+<ul id="tests">
+</ul>
+
+<script>
+
+function test( name, code) {
+	if (typeof code == 'function')
+		code = code()
+	$('#tests').append( '<li>Test '+name+' ' +(code ? 'OK' : '<b>Failed</b>') +'</li>');
+}
+
+var cache = new ObjectCache( 3);
+var key1 = { request: 'a', param: '0'};
+var key2 = { request: 'b', param: '1'};
+var key3 = { request: 'c', param: '2'};
+var key4 = { request: 'd', param: '3'};
+var value1 = 'value1';
+var value2 = 'value2';
+var value3 = 'value3';
+var value4 = 'value4';
+
+var tests = [
+	function() {
+		test( '1a empty', !cache.get( key1));
+		test( '1b empty', !cache.get( key2));
+		test( '1c empty', !cache.get( key3));
+	},
+	function() {
+		cache.put( key1, value1);
+		test( '2a exists',  cache.get( key1));
+		test( '2b exists', !cache.get( key2));
+		test( '2c exists', !cache.get( key3));
+		test( '2a value', cache.get( key1) == value1);
+		test( '2b value', cache.get( key1, 1000) == value1);
+	},
+	function() {
+		cache.put( key2, value2);
+		test( '3a exists',  cache.get( key1));
+		test( '3b exists',  cache.get( key2));
+		test( '3c exists', !cache.get( key3));
+		test( '3a value', cache.get( key1) == value1);
+		test( '3b value', cache.get( key2) == value2);
+	},
+	function() {
+		cache.put( key3, value3);
+		test( '4a exists', cache.get( key1));
+		test( '4b exists', cache.get( key2));
+		test( '4c exists', cache.get( key3));
+		test( '4a value', cache.get( key1) == value1);
+		test( '4ax value', !cache.get( key1, 1000));
+		test( '4b value', cache.get( key2) == value2);
+		test( '4c value', cache.get( key3) == value3);
+	},
+	function() {
+		// This should force cache shrink
+		cache.put( key4, value4);
+		test( '5a exists', !cache.get( key1));
+		test( '5b exists', !cache.get( key2));
+		test( '5c exists', cache.get( key3));
+		test( '5d exists', cache.get( key4));
+	}
+];
+
+var index = 0;
+
+function step() {
+	var code = tests[ index++];
+	if (!code)
+		return;
+	code();
+	setTimeout( 'step()', 500);
+}
+
+$(function(){
+
+
+	step();
+});
+</script>
+
+</body>
+</html>
